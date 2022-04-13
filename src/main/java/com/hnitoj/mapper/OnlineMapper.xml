@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnitoj.mapper.OnlineMapper" >
+  <resultMap id="BaseResultMap" type="com.hnitoj.pojo.Online" >
+    <id column="hash" property="hash" jdbcType="VARCHAR" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="ua" property="ua" jdbcType="VARCHAR" />
+    <result column="refer" property="refer" jdbcType="VARCHAR" />
+    <result column="lastmove" property="lastmove" jdbcType="INTEGER" />
+    <result column="firsttime" property="firsttime" jdbcType="INTEGER" />
+    <result column="uri" property="uri" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    hash, ip, ua, refer, lastmove, firsttime, uri
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hnitoj.pojo.OnlineExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from online
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from online
+    where hash = #{hash,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from online
+    where hash = #{hash,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hnitoj.pojo.OnlineExample" >
+    delete from online
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hnitoj.pojo.Online" >
+    insert into online (hash, ip, ua, 
+      refer, lastmove, firsttime, 
+      uri)
+    values (#{hash,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, 
+      #{refer,jdbcType=VARCHAR}, #{lastmove,jdbcType=INTEGER}, #{firsttime,jdbcType=INTEGER}, 
+      #{uri,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnitoj.pojo.Online" >
+    insert into online
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hash != null" >
+        hash,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="ua != null" >
+        ua,
+      </if>
+      <if test="refer != null" >
+        refer,
+      </if>
+      <if test="lastmove != null" >
+        lastmove,
+      </if>
+      <if test="firsttime != null" >
+        firsttime,
+      </if>
+      <if test="uri != null" >
+        uri,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hash != null" >
+        #{hash,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null" >
+        #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="refer != null" >
+        #{refer,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmove != null" >
+        #{lastmove,jdbcType=INTEGER},
+      </if>
+      <if test="firsttime != null" >
+        #{firsttime,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        #{uri,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hnitoj.pojo.OnlineExample" resultType="java.lang.Integer" >
+    select count(*) from online
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update online
+    <set >
+      <if test="record.hash != null" >
+        hash = #{record.hash,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ua != null" >
+        ua = #{record.ua,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refer != null" >
+        refer = #{record.refer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastmove != null" >
+        lastmove = #{record.lastmove,jdbcType=INTEGER},
+      </if>
+      <if test="record.firsttime != null" >
+        firsttime = #{record.firsttime,jdbcType=INTEGER},
+      </if>
+      <if test="record.uri != null" >
+        uri = #{record.uri,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update online
+    set hash = #{record.hash,jdbcType=VARCHAR},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      ua = #{record.ua,jdbcType=VARCHAR},
+      refer = #{record.refer,jdbcType=VARCHAR},
+      lastmove = #{record.lastmove,jdbcType=INTEGER},
+      firsttime = #{record.firsttime,jdbcType=INTEGER},
+      uri = #{record.uri,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hnitoj.pojo.Online" >
+    update online
+    <set >
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null" >
+        ua = #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="refer != null" >
+        refer = #{refer,jdbcType=VARCHAR},
+      </if>
+      <if test="lastmove != null" >
+        lastmove = #{lastmove,jdbcType=INTEGER},
+      </if>
+      <if test="firsttime != null" >
+        firsttime = #{firsttime,jdbcType=INTEGER},
+      </if>
+      <if test="uri != null" >
+        uri = #{uri,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where hash = #{hash,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnitoj.pojo.Online" >
+    update online
+    set ip = #{ip,jdbcType=VARCHAR},
+      ua = #{ua,jdbcType=VARCHAR},
+      refer = #{refer,jdbcType=VARCHAR},
+      lastmove = #{lastmove,jdbcType=INTEGER},
+      firsttime = #{firsttime,jdbcType=INTEGER},
+      uri = #{uri,jdbcType=VARCHAR}
+    where hash = #{hash,jdbcType=VARCHAR}
+  </update>
+</mapper>

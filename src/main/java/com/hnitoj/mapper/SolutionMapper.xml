@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnitoj.mapper.SolutionMapper" >
+  <resultMap id="BaseResultMap" type="com.hnitoj.pojo.Solution" >
+    <id column="solution_id" property="solutionId" jdbcType="INTEGER" />
+    <result column="problem_id" property="problemId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="INTEGER" />
+    <result column="memory" property="memory" jdbcType="INTEGER" />
+    <result column="in_date" property="inDate" jdbcType="DATE" />
+    <result column="result" property="result" jdbcType="SMALLINT" />
+    <result column="language" property="language" jdbcType="INTEGER" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="contest_id" property="contestId" jdbcType="INTEGER" />
+    <result column="valid" property="valid" jdbcType="TINYINT" />
+    <result column="num" property="num" jdbcType="TINYINT" />
+    <result column="code_length" property="codeLength" jdbcType="INTEGER" />
+    <result column="judgetime" property="judgetime" jdbcType="TIMESTAMP" />
+    <result column="pass_rate" property="passRate" jdbcType="DECIMAL" />
+    <result column="lint_error" property="lintError" jdbcType="INTEGER" />
+    <result column="judger" property="judger" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    solution_id, problem_id, user_id, time, memory, in_date, result, language, ip, contest_id, 
+    valid, num, code_length, judgetime, pass_rate, lint_error, judger
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hnitoj.pojo.SolutionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from solution
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from solution
+    where solution_id = #{solutionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from solution
+    where solution_id = #{solutionId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hnitoj.pojo.SolutionExample" >
+    delete from solution
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hnitoj.pojo.Solution" >
+    insert into solution (solution_id, problem_id, user_id, 
+      time, memory, in_date, 
+      result, language, ip, 
+      contest_id, valid, num, 
+      code_length, judgetime, pass_rate, 
+      lint_error, judger)
+    values (#{solutionId,jdbcType=INTEGER}, #{problemId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{time,jdbcType=INTEGER}, #{memory,jdbcType=INTEGER}, #{inDate,jdbcType=DATE}, 
+      #{result,jdbcType=SMALLINT}, #{language,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, 
+      #{contestId,jdbcType=INTEGER}, #{valid,jdbcType=TINYINT}, #{num,jdbcType=TINYINT}, 
+      #{codeLength,jdbcType=INTEGER}, #{judgetime,jdbcType=TIMESTAMP}, #{passRate,jdbcType=DECIMAL}, 
+      #{lintError,jdbcType=INTEGER}, #{judger,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnitoj.pojo.Solution" >
+    insert into solution
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="solutionId != null" >
+        solution_id,
+      </if>
+      <if test="problemId != null" >
+        problem_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="memory != null" >
+        memory,
+      </if>
+      <if test="inDate != null" >
+        in_date,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="language != null" >
+        language,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="contestId != null" >
+        contest_id,
+      </if>
+      <if test="valid != null" >
+        valid,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="codeLength != null" >
+        code_length,
+      </if>
+      <if test="judgetime != null" >
+        judgetime,
+      </if>
+      <if test="passRate != null" >
+        pass_rate,
+      </if>
+      <if test="lintError != null" >
+        lint_error,
+      </if>
+      <if test="judger != null" >
+        judger,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="solutionId != null" >
+        #{solutionId,jdbcType=INTEGER},
+      </if>
+      <if test="problemId != null" >
+        #{problemId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=INTEGER},
+      </if>
+      <if test="memory != null" >
+        #{memory,jdbcType=INTEGER},
+      </if>
+      <if test="inDate != null" >
+        #{inDate,jdbcType=DATE},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=SMALLINT},
+      </if>
+      <if test="language != null" >
+        #{language,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="contestId != null" >
+        #{contestId,jdbcType=INTEGER},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=TINYINT},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=TINYINT},
+      </if>
+      <if test="codeLength != null" >
+        #{codeLength,jdbcType=INTEGER},
+      </if>
+      <if test="judgetime != null" >
+        #{judgetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passRate != null" >
+        #{passRate,jdbcType=DECIMAL},
+      </if>
+      <if test="lintError != null" >
+        #{lintError,jdbcType=INTEGER},
+      </if>
+      <if test="judger != null" >
+        #{judger,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hnitoj.pojo.SolutionExample" resultType="java.lang.Integer" >
+    select count(*) from solution
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update solution
+    <set >
+      <if test="record.solutionId != null" >
+        solution_id = #{record.solutionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.problemId != null" >
+        problem_id = #{record.problemId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=INTEGER},
+      </if>
+      <if test="record.memory != null" >
+        memory = #{record.memory,jdbcType=INTEGER},
+      </if>
+      <if test="record.inDate != null" >
+        in_date = #{record.inDate,jdbcType=DATE},
+      </if>
+      <if test="record.result != null" >
+        result = #{record.result,jdbcType=SMALLINT},
+      </if>
+      <if test="record.language != null" >
+        language = #{record.language,jdbcType=INTEGER},
+      </if>
+      <if test="record.ip != null" >
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contestId != null" >
+        contest_id = #{record.contestId,jdbcType=INTEGER},
+      </if>
+      <if test="record.valid != null" >
+        valid = #{record.valid,jdbcType=TINYINT},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=TINYINT},
+      </if>
+      <if test="record.codeLength != null" >
+        code_length = #{record.codeLength,jdbcType=INTEGER},
+      </if>
+      <if test="record.judgetime != null" >
+        judgetime = #{record.judgetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.passRate != null" >
+        pass_rate = #{record.passRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lintError != null" >
+        lint_error = #{record.lintError,jdbcType=INTEGER},
+      </if>
+      <if test="record.judger != null" >
+        judger = #{record.judger,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update solution
+    set solution_id = #{record.solutionId,jdbcType=INTEGER},
+      problem_id = #{record.problemId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=INTEGER},
+      memory = #{record.memory,jdbcType=INTEGER},
+      in_date = #{record.inDate,jdbcType=DATE},
+      result = #{record.result,jdbcType=SMALLINT},
+      language = #{record.language,jdbcType=INTEGER},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      contest_id = #{record.contestId,jdbcType=INTEGER},
+      valid = #{record.valid,jdbcType=TINYINT},
+      num = #{record.num,jdbcType=TINYINT},
+      code_length = #{record.codeLength,jdbcType=INTEGER},
+      judgetime = #{record.judgetime,jdbcType=TIMESTAMP},
+      pass_rate = #{record.passRate,jdbcType=DECIMAL},
+      lint_error = #{record.lintError,jdbcType=INTEGER},
+      judger = #{record.judger,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hnitoj.pojo.Solution" >
+    update solution
+    <set >
+      <if test="problemId != null" >
+        problem_id = #{problemId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=INTEGER},
+      </if>
+      <if test="memory != null" >
+        memory = #{memory,jdbcType=INTEGER},
+      </if>
+      <if test="inDate != null" >
+        in_date = #{inDate,jdbcType=DATE},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=SMALLINT},
+      </if>
+      <if test="language != null" >
+        language = #{language,jdbcType=INTEGER},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="contestId != null" >
+        contest_id = #{contestId,jdbcType=INTEGER},
+      </if>
+      <if test="valid != null" >
+        valid = #{valid,jdbcType=TINYINT},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=TINYINT},
+      </if>
+      <if test="codeLength != null" >
+        code_length = #{codeLength,jdbcType=INTEGER},
+      </if>
+      <if test="judgetime != null" >
+        judgetime = #{judgetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="passRate != null" >
+        pass_rate = #{passRate,jdbcType=DECIMAL},
+      </if>
+      <if test="lintError != null" >
+        lint_error = #{lintError,jdbcType=INTEGER},
+      </if>
+      <if test="judger != null" >
+        judger = #{judger,jdbcType=CHAR},
+      </if>
+    </set>
+    where solution_id = #{solutionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnitoj.pojo.Solution" >
+    update solution
+    set problem_id = #{problemId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      time = #{time,jdbcType=INTEGER},
+      memory = #{memory,jdbcType=INTEGER},
+      in_date = #{inDate,jdbcType=DATE},
+      result = #{result,jdbcType=SMALLINT},
+      language = #{language,jdbcType=INTEGER},
+      ip = #{ip,jdbcType=VARCHAR},
+      contest_id = #{contestId,jdbcType=INTEGER},
+      valid = #{valid,jdbcType=TINYINT},
+      num = #{num,jdbcType=TINYINT},
+      code_length = #{codeLength,jdbcType=INTEGER},
+      judgetime = #{judgetime,jdbcType=TIMESTAMP},
+      pass_rate = #{passRate,jdbcType=DECIMAL},
+      lint_error = #{lintError,jdbcType=INTEGER},
+      judger = #{judger,jdbcType=CHAR}
+    where solution_id = #{solutionId,jdbcType=INTEGER}
+  </update>
+</mapper>

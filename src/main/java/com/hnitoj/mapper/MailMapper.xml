@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hnitoj.mapper.MailMapper" >
+  <resultMap id="BaseResultMap" type="com.hnitoj.pojo.Mail" >
+    <id column="mail_id" property="mailId" jdbcType="INTEGER" />
+    <result column="to_user" property="toUser" jdbcType="VARCHAR" />
+    <result column="from_user" property="fromUser" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="new_mail" property="newMail" jdbcType="TINYINT" />
+    <result column="reply" property="reply" jdbcType="TINYINT" />
+    <result column="in_date" property="inDate" jdbcType="TIMESTAMP" />
+    <result column="defunct" property="defunct" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.hnitoj.pojo.Mail" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    mail_id, to_user, from_user, title, new_mail, reply, in_date, defunct
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.hnitoj.pojo.MailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hnitoj.pojo.MailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from mail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mail
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mail
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hnitoj.pojo.MailExample" >
+    delete from mail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hnitoj.pojo.Mail" >
+    insert into mail (mail_id, to_user, from_user, 
+      title, new_mail, reply, 
+      in_date, defunct, content
+      )
+    values (#{mailId,jdbcType=INTEGER}, #{toUser,jdbcType=VARCHAR}, #{fromUser,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{newMail,jdbcType=TINYINT}, #{reply,jdbcType=TINYINT}, 
+      #{inDate,jdbcType=TIMESTAMP}, #{defunct,jdbcType=CHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hnitoj.pojo.Mail" >
+    insert into mail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mailId != null" >
+        mail_id,
+      </if>
+      <if test="toUser != null" >
+        to_user,
+      </if>
+      <if test="fromUser != null" >
+        from_user,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="newMail != null" >
+        new_mail,
+      </if>
+      <if test="reply != null" >
+        reply,
+      </if>
+      <if test="inDate != null" >
+        in_date,
+      </if>
+      <if test="defunct != null" >
+        defunct,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mailId != null" >
+        #{mailId,jdbcType=INTEGER},
+      </if>
+      <if test="toUser != null" >
+        #{toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUser != null" >
+        #{fromUser,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="newMail != null" >
+        #{newMail,jdbcType=TINYINT},
+      </if>
+      <if test="reply != null" >
+        #{reply,jdbcType=TINYINT},
+      </if>
+      <if test="inDate != null" >
+        #{inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="defunct != null" >
+        #{defunct,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hnitoj.pojo.MailExample" resultType="java.lang.Integer" >
+    select count(*) from mail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mail
+    <set >
+      <if test="record.mailId != null" >
+        mail_id = #{record.mailId,jdbcType=INTEGER},
+      </if>
+      <if test="record.toUser != null" >
+        to_user = #{record.toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromUser != null" >
+        from_user = #{record.fromUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newMail != null" >
+        new_mail = #{record.newMail,jdbcType=TINYINT},
+      </if>
+      <if test="record.reply != null" >
+        reply = #{record.reply,jdbcType=TINYINT},
+      </if>
+      <if test="record.inDate != null" >
+        in_date = #{record.inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.defunct != null" >
+        defunct = #{record.defunct,jdbcType=CHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update mail
+    set mail_id = #{record.mailId,jdbcType=INTEGER},
+      to_user = #{record.toUser,jdbcType=VARCHAR},
+      from_user = #{record.fromUser,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      new_mail = #{record.newMail,jdbcType=TINYINT},
+      reply = #{record.reply,jdbcType=TINYINT},
+      in_date = #{record.inDate,jdbcType=TIMESTAMP},
+      defunct = #{record.defunct,jdbcType=CHAR},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mail
+    set mail_id = #{record.mailId,jdbcType=INTEGER},
+      to_user = #{record.toUser,jdbcType=VARCHAR},
+      from_user = #{record.fromUser,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      new_mail = #{record.newMail,jdbcType=TINYINT},
+      reply = #{record.reply,jdbcType=TINYINT},
+      in_date = #{record.inDate,jdbcType=TIMESTAMP},
+      defunct = #{record.defunct,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hnitoj.pojo.Mail" >
+    update mail
+    <set >
+      <if test="toUser != null" >
+        to_user = #{toUser,jdbcType=VARCHAR},
+      </if>
+      <if test="fromUser != null" >
+        from_user = #{fromUser,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="newMail != null" >
+        new_mail = #{newMail,jdbcType=TINYINT},
+      </if>
+      <if test="reply != null" >
+        reply = #{reply,jdbcType=TINYINT},
+      </if>
+      <if test="inDate != null" >
+        in_date = #{inDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="defunct != null" >
+        defunct = #{defunct,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hnitoj.pojo.Mail" >
+    update mail
+    set to_user = #{toUser,jdbcType=VARCHAR},
+      from_user = #{fromUser,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      new_mail = #{newMail,jdbcType=TINYINT},
+      reply = #{reply,jdbcType=TINYINT},
+      in_date = #{inDate,jdbcType=TIMESTAMP},
+      defunct = #{defunct,jdbcType=CHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hnitoj.pojo.Mail" >
+    update mail
+    set to_user = #{toUser,jdbcType=VARCHAR},
+      from_user = #{fromUser,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      new_mail = #{newMail,jdbcType=TINYINT},
+      reply = #{reply,jdbcType=TINYINT},
+      in_date = #{inDate,jdbcType=TIMESTAMP},
+      defunct = #{defunct,jdbcType=CHAR}
+    where mail_id = #{mailId,jdbcType=INTEGER}
+  </update>
+</mapper>
