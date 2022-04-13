@@ -19,4 +19,11 @@ public class ProblemServiceImpl implements ProblemService {
         System.out.println(problemMapper);
         return problemMapper.selectByExample(new ProblemExample());
     }
+
+    @Override
+     public int delete(int problem_id){
+        return problemMapper.deleteByPrimaryKey(problem_id);
+    }
+
+
 }

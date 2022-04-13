@@ -2,7 +2,6 @@ package com.hnitoj.controller;
 
 import com.hnitoj.pojo.Problem;
 import com.hnitoj.service.ProblemService;
-import com.hnitoj.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +28,28 @@ public class ProblemAction {
         return list;
     }
 
+
+    //功能二:根据id删除题目
+    @ResponseBody
+    @RequestMapping("/delete")
+    public String delete(int problem_id,HttpServletRequest request, HttpServletResponse response){
+        int num = -1;
+        try {
+         num=problemService.delete(problem_id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        if (num > 0) {
+            request.setAttribute("msg", "删除成功!");
+            return "chengg";
+
+        } else {
+            request.setAttribute("msg", "删除失败!");
+            return "shibai";
+        }
+       // return "forward:/problem/getAll.action";//此处有问题
+
+    }
 
 
 
