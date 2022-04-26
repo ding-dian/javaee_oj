@@ -52,6 +52,7 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext_*.xml</param-value>
     </context-param>
+
 <welcome-file-list>
        <!--<welcome-file>/admin/login.jsp</welcome-file>-->
     <welcome-file>/index.html</welcome-file>
